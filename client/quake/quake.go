@@ -57,7 +57,7 @@ func (Q *Client) Query(query string, page int, pageSize int) ([]core.Result, err
 	if pageSize < 10 {
 		return nil, errors.New("PageSize Error")
 	}
-	datas := map[string]string{
+	datas := map[string]interface{}{
 		"query": query,
 		"start": strconv.Itoa((page - 1) * pageSize),
 		"size":  strconv.Itoa(pageSize),
