@@ -43,7 +43,7 @@ type QuakeUserInfo struct {
 type Result struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
-	Data    Data   `json:"data"`
+	Data    []Data `json:"data"`
 	Meta    struct {
 		Pagination struct {
 			Count     int `json:"count"`
