@@ -18,6 +18,6 @@ func (F *Client) Query(query string, page int, pageSize int) ([]core.Result, err
 	return nil, nil
 }
 
-func (F *Client) Check() bool {
-	return false
+func (F *Client) Check() (bool, error) {
+	return false, nil
 }

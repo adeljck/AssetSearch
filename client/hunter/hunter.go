@@ -1,6 +1,8 @@
 package hunter
 
-import "github.com/adeljck/AssetSearch/core"
+import (
+	"github.com/adeljck/AssetSearch/core"
+)
 
 type Client struct {
 	Key string
@@ -16,6 +18,6 @@ func (H *Client) Name() string {
 func (H *Client) Query(query string, page int, pageSize int) ([]core.Result, error) {
 	return nil, nil
 }
-func (H *Client) Check() bool {
-	return false
+func (H *Client) Check() (bool, error) {
+	return false, nil
 }

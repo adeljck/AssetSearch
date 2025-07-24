@@ -14,8 +14,8 @@ func New(Key string) *Client {
 func (Q *Client) Name() string {
 	return "Quake"
 }
-func (Q *Client) Check() bool {
-	return false
+func (Q *Client) Check() (bool, error) {
+	return false, nil
 }
 
 func (Q *Client) Query(query string, page int, pageSize int) ([]core.Result, error) {
