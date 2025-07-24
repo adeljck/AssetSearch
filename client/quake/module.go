@@ -37,3 +37,36 @@ type QuakeUserInfo struct {
 	Meta struct {
 	} `json:"meta"`
 }
+
+type Result struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+	Data    []struct {
+		Host     string `json:"host"`
+		Domain   string `json:"domain"`
+		Time     string `json:"time"`
+		Hostname string `json:"hostname"`
+		Port     int    `json:"port"`
+		IP       string `json:"ip"`
+		Icp      struct {
+			License     string `json:"license"`
+			UpdateTime  string `json:"update_time"`
+			IsExpired   bool   `json:"is_expired"`
+			Domain      string `json:"domain"`
+			LeaderName  string `json:"leader_name"`
+			MainLicense struct {
+				License string `json:"license"`
+				Unit    string `json:"unit"`
+				Nature  string `json:"nature"`
+			} `json:"main_license"`
+		} `json:"icp"`
+	} `json:"data"`
+	Meta struct {
+		Pagination struct {
+			Count     int `json:"count"`
+			PageIndex int `json:"page_index"`
+			PageSize  int `json:"page_size"`
+			Total     int `json:"total"`
+		} `json:"pagination"`
+	} `json:"meta"`
+}

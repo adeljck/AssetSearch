@@ -3,9 +3,7 @@ package quake
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"github.com/adeljck/AssetSearch/config"
-	"github.com/adeljck/AssetSearch/core"
 	"github.com/go-resty/resty/v2"
 	"net/http"
 )
@@ -46,7 +44,7 @@ func (Q *Client) Check() (bool, error) {
 	}
 	return true, nil
 }
-func (Q *Client) Query(query string, page int, pageSize int) ([]core.Result, error) {
+func (Q *Client) Query(query string, page int, pageSize int, include []string) (interface{}, error) {
 	if query == "" {
 		return nil, errors.New("Query Error")
 	}
@@ -56,11 +54,6 @@ func (Q *Client) Query(query string, page int, pageSize int) ([]core.Result, err
 	if pageSize < 10 {
 		return nil, errors.New("PageSize Error")
 	}
-	//datas := map[string]interface{}{
-	//	"query": query,
-	//	"start": strconv.Itoa((page - 1) * pageSize),
-	//	"size":  strconv.Itoa(pageSize),
-	//}
 	datas := struct {
 		Query string `json:"query"`
 		Start int    `json:"start"`
@@ -77,7 +70,13 @@ func (Q *Client) Query(query string, page int, pageSize int) ([]core.Result, err
 	if res.StatusCode() != http.StatusOK || res.Header().Get("Content-Type") != "application/json" {
 		return nil, errors.New("invalid Key Or Request Error")
 	}
-
-	fmt.Println(string(res.Body()))
-	return nil, nil
+	results := new(Result)
+	err = json.Unmarshal(res.Body(), results)
+	if err != nil {
+		return nil, err
+	}
+	if results.Code != 0 {
+		return nil, errors.New(results.Message)
+	}
+	return results, nil
 }
