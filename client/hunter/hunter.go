@@ -33,7 +33,7 @@ func (H *Client) Query(query string, page int, pageSize int) (interface{}, error
 	if err != nil {
 		return nil, err
 	}
-	if res.Header().Get("Content-Type") != "application/json" && res.StatusCode() != http.StatusOK {
+	if res.Header().Get("Content-Type") != "application/json" || res.StatusCode() != http.StatusOK {
 		return nil, fmt.Errorf("%s", "request failed with status code %d", res.StatusCode())
 	}
 	results := new(Result)
