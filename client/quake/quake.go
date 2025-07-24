@@ -70,7 +70,7 @@ func (Q *Client) Query(query string, page int, pageSize int) ([]core.Result, err
 		Start: (page - 1) * pageSize,
 		Size:  pageSize,
 	}
-	res, err := Q.client.R().SetBody(datas).Get(config.QuakeSearchPath)
+	res, err := Q.client.R().SetBody(datas).Post(config.QuakeSearchPath)
 	if err != nil {
 		return nil, err
 	}
