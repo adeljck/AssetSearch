@@ -1,15 +1,23 @@
 package fofa
 
-import "github.com/adeljck/AssetSearch/core"
+import (
+	"github.com/adeljck/AssetSearch/config"
+	"github.com/adeljck/AssetSearch/core"
+	"github.com/go-resty/resty/v2"
+)
 
 type Client struct {
 	FoFAKey string
+	client  *resty.Client
 }
 
 func New(Key string) *Client {
-	return &Client{
+	client := &Client{
 		FoFAKey: Key,
+		client:  resty.New(),
 	}
+	client.client.SetBaseURL(config.FoFaApi)
+	return client
 }
 func (F *Client) Name() string {
 	return "FoFa"

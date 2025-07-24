@@ -1,15 +1,21 @@
 package quake
 
-import "github.com/adeljck/AssetSearch/core"
+import (
+	"github.com/adeljck/AssetSearch/core"
+	"github.com/go-resty/resty/v2"
+)
 
 type Client struct {
-	Key string
+	Key    string
+	client *resty.Client
 }
 
 func New(Key string) *Client {
-	return &Client{
-		Key: Key,
+	client := &Client{
+		Key:    Key,
+		client: resty.New(),
 	}
+	return client
 }
 func (Q *Client) Name() string {
 	return "Quake"
