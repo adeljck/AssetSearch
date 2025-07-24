@@ -8,7 +8,6 @@ import (
 	"github.com/adeljck/AssetSearch/core"
 	"github.com/go-resty/resty/v2"
 	"net/http"
-	"strconv"
 )
 
 type Client struct {
@@ -57,10 +56,19 @@ func (Q *Client) Query(query string, page int, pageSize int) ([]core.Result, err
 	if pageSize < 10 {
 		return nil, errors.New("PageSize Error")
 	}
-	datas := map[string]interface{}{
-		"query": query,
-		"start": strconv.Itoa((page - 1) * pageSize),
-		"size":  strconv.Itoa(pageSize),
+	//datas := map[string]interface{}{
+	//	"query": query,
+	//	"start": strconv.Itoa((page - 1) * pageSize),
+	//	"size":  strconv.Itoa(pageSize),
+	//}
+	datas := struct {
+		Query string `json:"query"`
+		Start int    `json:"start"`
+		Size  int    `json:"size"`
+	}{
+		Query: query,
+		Start: (page - 1) * pageSize,
+		Size:  pageSize,
 	}
 	res, err := Q.client.R().SetBody(datas).Get(config.QuakeSearchPath)
 	if err != nil {
@@ -69,6 +77,7 @@ func (Q *Client) Query(query string, page int, pageSize int) ([]core.Result, err
 	if res.StatusCode() != http.StatusOK || res.Header().Get("Content-Type") != "application/json" {
 		return nil, errors.New("invalid Key Or Request Error")
 	}
+
 	fmt.Println(string(res.Body()))
 	return nil, nil
 }
