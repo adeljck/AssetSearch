@@ -1,5 +1,7 @@
 package quake
 
+import "time"
+
 type QuakeUserInfo struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
@@ -41,31 +43,8 @@ type QuakeUserInfo struct {
 type Result struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
-	Data    []struct {
-		Host     string `json:"host"`
-		Domain   string `json:"domain"`
-		Time     string `json:"time"`
-		Hostname string `json:"hostname"`
-		Port     int    `json:"port"`
-		IP       string `json:"ip"`
-		Service  struct {
-			Http struct {
-				Icp struct {
-					License     string `json:"license"`
-					UpdateTime  string `json:"update_time"`
-					IsExpired   bool   `json:"is_expired"`
-					Domain      string `json:"domain"`
-					LeaderName  string `json:"leader_name"`
-					MainLicense struct {
-						License string `json:"license"`
-						Unit    string `json:"unit"`
-						Nature  string `json:"nature"`
-					} `json:"main_license"`
-				} `json:"icp"`
-			} `json:"http"`
-		} `json:"service"`
-	} `json:"data"`
-	Meta struct {
+	Data    Data   `json:"data"`
+	Meta    struct {
 		Pagination struct {
 			Count     int `json:"count"`
 			PageIndex int `json:"page_index"`
@@ -73,4 +52,33 @@ type Result struct {
 			Total     int `json:"total"`
 		} `json:"pagination"`
 	} `json:"meta"`
+}
+
+type Data struct {
+	Hostname string `json:"hostname"`
+	Port     int    `json:"port"`
+	Service  struct {
+		HTTP struct {
+			MetaKeywords string `json:"meta_keywords"`
+			Title        string `json:"title"`
+			Icp          struct {
+				Licence     string    `json:"licence"`
+				UpdateTime  time.Time `json:"update_time"`
+				IsExpired   bool      `json:"is_expired"`
+				LeaderName  string    `json:"leader_name"`
+				Domain      string    `json:"domain"`
+				MainLicence struct {
+					Licence string `json:"licence"`
+					Unit    string `json:"unit"`
+					Nature  string `json:"nature"`
+				} `json:"main_licence"`
+				ContentTypeName string `json:"content_type_name"`
+				LimitAccess     bool   `json:"limit_access"`
+			} `json:"icp"`
+			Host string `json:"host"`
+		} `json:"http"`
+	} `json:"service"`
+	IP     string    `json:"ip"`
+	Domain string    `json:"domain"`
+	Time   time.Time `json:"time"`
 }
