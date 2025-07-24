@@ -7,6 +7,7 @@ import (
 	"github.com/adeljck/AssetSearch/config"
 	"github.com/adeljck/AssetSearch/core"
 	"github.com/go-resty/resty/v2"
+	"net/http"
 	"strconv"
 	"strings"
 )
@@ -30,6 +31,15 @@ func (F *Client) Name() string {
 	return "FoFa"
 }
 func (F *Client) Query(query string, page int, pageSize int, fields []string) (interface{}, error) {
+	if query == "" {
+		return nil, errors.New("Query Error")
+	}
+	if page <= 0 {
+		return nil, errors.New("Page Error")
+	}
+	if pageSize < 10 {
+		return nil, errors.New("PageSize Error")
+	}
 	datas := map[string]string{
 		"qbase64": core.ToBase64(query),
 		"page":    strconv.Itoa(page),
@@ -44,7 +54,7 @@ func (F *Client) Query(query string, page int, pageSize int, fields []string) (i
 	if err != nil {
 		return nil, err
 	}
-	if res.StatusCode() != 200 || res.Header().Get("Content-Type") != "application/json" {
+	if res.StatusCode() != http.StatusOK || res.Header().Get("Content-Type") != "application/json" {
 		return nil, fmt.Errorf("invalid key Or Requests Error")
 	}
 	results := new(Results)
@@ -63,7 +73,7 @@ func (F *Client) Check() (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	if res.StatusCode() != 200 || res.Header().Get("Content-Type") != "application/json" {
+	if res.StatusCode() != http.StatusOK || res.Header().Get("Content-Type") != "application/json" {
 		return false, errors.New("invalid Key Or Request Error")
 	}
 	results := new(FoFaAccountInfo)

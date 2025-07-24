@@ -2,6 +2,7 @@ package hunter
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/adeljck/AssetSearch/config"
 	"github.com/adeljck/AssetSearch/core"
@@ -17,12 +18,22 @@ type Client struct {
 
 func New(Key string) *Client {
 	client := &Client{Key: Key, client: resty.New()}
+	client.client.SetBaseURL(config.HunterApi)
 	return client
 }
 func (H *Client) Name() string {
 	return "Hunter"
 }
 func (H *Client) Query(query string, page int, pageSize int) (interface{}, error) {
+	if query == "" {
+		return nil, errors.New("Query Error")
+	}
+	if page <= 0 {
+		return nil, errors.New("Page Error")
+	}
+	if pageSize < 10 {
+		return nil, errors.New("PageSize Error")
+	}
 	datas := map[string]string{
 		"query":     core.ToBase64(query),
 		"page":      strconv.Itoa(page),
