@@ -4,7 +4,7 @@ type FoFaAccountInfo struct {
 	Error   bool   `json:"error"`
 	IsVip   bool   `json:"isvip"`
 	Message string `json:"message"`
-	ErrMsg  string `json:"err_msg"`
+	ErrMsg  string `json:"errmsg"`
 }
 
 type Results struct {
