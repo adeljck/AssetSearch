@@ -31,7 +31,7 @@ func (H *Client) Query(query string, page int, pageSize int) (interface{}, error
 	if page <= 0 {
 		return nil, errors.New("Page Error")
 	}
-	if pageSize < 10 {
+	if pageSize <= 10 {
 		return nil, errors.New("PageSize Error")
 	}
 	datas := map[string]string{
@@ -58,7 +58,7 @@ func (H *Client) Query(query string, page int, pageSize int) (interface{}, error
 	return results, nil
 }
 func (H *Client) Check() (bool, error) {
-	_, err := H.Query("protocol=\"kkkkkkk\"", 1, 1)
+	_, err := H.Query("protocol=\"kkkkkkk\"", 1, 10)
 	if err != nil {
 		return false, err
 	}
