@@ -50,7 +50,7 @@ func (F *Client) Query(query string, page int, pageSize int, fields []string) (i
 	if fields != nil {
 		datas["fields"] = strings.Join(fields, ",")
 	}
-	res, err := F.client.R().SetPathParams(datas).Get(config.FoFaSearchPath)
+	res, err := F.client.R().SetQueryParams(datas).Get(config.FoFaSearchPath)
 	if err != nil {
 		return nil, err
 	}

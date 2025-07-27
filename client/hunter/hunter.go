@@ -41,7 +41,7 @@ func (H *Client) Query(query string, page int, pageSize int) (interface{}, error
 		"page":      strconv.Itoa(page),
 		"page_size": strconv.Itoa(pageSize),
 	}
-	res, err := H.client.R().SetPathParams(datas).Get(config.HunterSearchPath)
+	res, err := H.client.R().SetQueryParams(datas).Get(config.HunterSearchPath)
 	if err != nil {
 		return nil, err
 	}
