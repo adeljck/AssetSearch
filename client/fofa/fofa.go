@@ -82,7 +82,7 @@ func (F *Client) Check() (bool, error) {
 		return false, err
 	}
 	if results.Error {
-		return false, errors.New(results.Message)
+		return false, errors.New(results.ErrMsg)
 	}
 	return true, nil
 }
