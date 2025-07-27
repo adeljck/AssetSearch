@@ -9,6 +9,7 @@ import (
 	"github.com/go-resty/resty/v2"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 type Client struct {
@@ -44,7 +45,7 @@ func (H *Client) Query(query string, page int, pageSize int) (interface{}, error
 	if err != nil {
 		return nil, err
 	}
-	if res.Header().Get("Content-Type") != "application/json" || res.StatusCode() != http.StatusOK {
+	if !strings.Contains(res.Header().Get("Content-Type"), "application/json") || res.StatusCode() != http.StatusOK {
 		return nil, fmt.Errorf("%s", "request failed with status code %d", res.StatusCode())
 	}
 	results := new(Result)

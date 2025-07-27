@@ -6,6 +6,7 @@ import (
 	"github.com/adeljck/AssetSearch/config"
 	"github.com/go-resty/resty/v2"
 	"net/http"
+	"strings"
 )
 
 type Client struct {
@@ -31,7 +32,7 @@ func (Q *Client) Check() (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	if res.StatusCode() != http.StatusOK || res.Header().Get("Content-Type") != "application/json" {
+	if res.StatusCode() != http.StatusOK || !strings.Contains(res.Header().Get("Content-Type"), "application/json") {
 		return false, errors.New("invalid Key Or Request Error")
 	}
 	results := new(QuakeUserInfo)

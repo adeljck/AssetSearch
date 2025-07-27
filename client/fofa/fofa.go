@@ -54,7 +54,7 @@ func (F *Client) Query(query string, page int, pageSize int, fields []string) (i
 	if err != nil {
 		return nil, err
 	}
-	if res.StatusCode() != http.StatusOK || res.Header().Get("Content-Type") != "application/json" {
+	if res.StatusCode() != http.StatusOK || !strings.Contains(res.Header().Get("Content-Type"), "application/json") {
 		return nil, fmt.Errorf("invalid key Or Requests Error")
 	}
 	results := new(Results)
