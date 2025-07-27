@@ -36,10 +36,10 @@ func (H *Client) Query(query string, page int, pageSize int) (interface{}, error
 		return nil, errors.New("PageSize Error")
 	}
 	datas := map[string]string{
+		"api-key":   H.Key,
 		"query":     core.ToBase64(query),
 		"page":      strconv.Itoa(page),
 		"page_size": strconv.Itoa(pageSize),
-		"api-key":   H.Key,
 	}
 	res, err := H.client.R().SetPathParams(datas).Get(config.HunterSearchPath)
 	if err != nil {
