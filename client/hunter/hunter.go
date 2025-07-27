@@ -31,7 +31,7 @@ func (H *Client) Query(query string, page int, pageSize int) (interface{}, error
 	if page <= 0 {
 		return nil, errors.New("Page Error")
 	}
-	if pageSize <= 10 {
+	if pageSize < 10 {
 		return nil, errors.New("PageSize Error")
 	}
 	datas := map[string]string{
