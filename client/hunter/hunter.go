@@ -37,7 +37,7 @@ func (H *Client) Query(query string, page int, pageSize int) (interface{}, error
 	}
 	datas := map[string]string{
 		"api-key":   H.Key,
-		"query":     core.ToBase64(query),
+		"search":    core.ToBase64(query),
 		"page":      strconv.Itoa(page),
 		"page_size": strconv.Itoa(pageSize),
 	}
